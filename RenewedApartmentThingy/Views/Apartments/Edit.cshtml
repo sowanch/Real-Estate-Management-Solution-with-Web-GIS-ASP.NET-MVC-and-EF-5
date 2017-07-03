@@ -1,0 +1,374 @@
+﻿@model RenewedApartmentThingy.Apartment
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<link rel="stylesheet" href="https://js.arcgis.com/4.3/esri/css/main.css">
+<script src="https://js.arcgis.com/4.3/"></script>
+<script>
+    require([
+      "esri/Map",
+      "esri/views/SceneView",
+      "esri/layers/GraphicsLayer",
+
+      "esri/Graphic",
+      "esri/geometry/Point",
+
+      "esri/symbols/SimpleMarkerSymbol",
+      "esri/widgets/Search",
+      "dojo/domReady!"
+    ], function(Map, SceneView, GraphicsLayer, Graphic, Point, SimpleMarkerSymbol, Search){
+
+        var markerSymbol;
+
+        var map = new Map({
+          basemap: "osm",
+          ground: "world-elevation"
+        });
+
+        /*********************
+        * Add graphics layer
+        *********************/
+
+        var graphicsLayer = new GraphicsLayer();
+        map.add(graphicsLayer);
+
+        var latInit, longInit;
+
+        latInit = document.getElementById("Latitude").value;
+        longInit = document.getElementById("Longitude").value;
+
+
+      var view = new SceneView({
+        container: "myMap",  // Reference to the scene div created in step 5
+        map: map,  // Reference to the map object created before the scene
+        zoom: 13,  // Sets the zoom level based on level of detail (LOD)
+        center: [longInit, latInit]  // Sets the center point of view in lon/lat
+      });
+
+        //Add point to View from the Lat/Long textboxes
+      view.then(function () {
+          // This function will execute once the promise is resolved
+          /*************************
+           * Add a 3D point graphic
+           *************************/
+
+          // Apartment Location
+          var point = new Point({
+              x: longInit,
+              y: latInit
+          }),
+
+          markerSymbol = new SimpleMarkerSymbol({
+              color: [226, 119, 40],
+
+              outline: { // autocasts as new SimpleLineSymbol()
+                  color: [255, 255, 255],
+                  width: 2
+              }
+          });
+
+          var pointGraphic = new Graphic({
+              geometry: point,
+              symbol: markerSymbol
+          });
+
+          graphicsLayer.add(pointGraphic);
+
+          //Zoom to Graphic
+          /*view.goTo({
+              center: [longInit, latInit],
+              heading: 45
+          });*/
+
+
+      }, function (error) {
+          // This function will execute if the promise is rejected due to an error
+          // A rejected view indicates a fatal error making it unable to display,
+          // this usually means that WebGL is not available, or too old.
+          console.error("SceneView rejected:", err);
+      });
+
+
+
+      var searchWidget = new Search({
+          view: view
+      });
+
+        // Add the search widget to the very top left corner of the view
+      view.ui.add(searchWidget, {
+          position: "top-left",
+          index: 0
+      });
+
+        // Get the screen point from the view's click event
+      view.on("click", function (event) {
+          var screenPoint = {
+              x: event.x,
+              y: event.y
+          };
+          // Search for graphics at the clicked location
+          view.hitTest(screenPoint).then(function (response) {
+              //Remove Graphics from layer
+              graphicsLayer.removeAll();
+
+              var result = response.results[0];
+
+              if (result) {
+                  var lon = result.mapPoint.longitude;
+                  var lat = result.mapPoint.latitude;
+
+                  console.log("Hit surface at (" + lon + ", " + lat + "), graphic:", result.graphic || "none");
+
+                  //$("#Latitude").val() = lat;
+                  //$("#Longitude").val() = lat;
+                  document.getElementById("Latitude").value = lat;
+                  document.getElementById("Longitude").value = lon;
+
+
+
+                  /*************************
+                   * Add a 3D point graphic
+                   *************************/
+
+                  // London
+                  var point = new Point({
+                      x: lon,
+                      y: lat
+                  }),
+
+                  markerSymbol = new SimpleMarkerSymbol({
+                        color: [226, 119, 40],
+
+                        outline: { // autocasts as new SimpleLineSymbol()
+                            color: [255, 255, 255],
+                            width: 2
+                        }
+                    });
+
+                  var pointGraphic = new Graphic({
+                      geometry: point,
+                      symbol: markerSymbol
+                  });
+
+                  graphicsLayer.add(pointGraphic);
+              }
+          });
+      });
+    });
+</script>
+
+<h2>Edit</h2>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>Apartment</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.ApartmentID)
+
+        <div class="col-md-6">
+            <div class="form-group">
+                @Html.LabelFor(model => model.ApartmentOwnerID, "Apartment Owner", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownList("ApartmentOwnerID", null, htmlAttributes: new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.ApartmentOwnerID, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.ApartmentBuildDate, "Apartment Built Date", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.ApartmentBuildDate, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.ApartmentBuildDate, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.ApartmentStatus, "Apartment Status", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    <div class="checkbox">
+                        @Html.EditorFor(model => model.ApartmentStatus)
+                        @Html.ValidationMessageFor(model => model.ApartmentStatus, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.ApartmentName, "Apartment Name", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.ApartmentName, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.ApartmentName, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.LocationName, "Apartment Location", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.LocationName, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.LocationName, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.BuildingFloors, "Apartment Floors", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.BuildingFloors, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.BuildingFloors, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.BuildingComplexName, "Building Complex Name", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.BuildingComplexName, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.BuildingComplexName, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+        </div>
+        <div class="col-md-6">
+            <h4>Apartment Details</h4>
+            <div class="form-group">
+                @Html.LabelFor(model => model.NumberOfBedrooms, "Number of Bedrooms", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.NumberOfBedrooms, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.NumberOfBedrooms, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.NumberOfBathrooms, "Number of Bathrooms", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.NumberOfBathrooms, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.NumberOfBathrooms, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.ParkingType, "Parking Type", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownList("ParkingType", null, htmlAttributes: new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.ParkingType, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.CurrentPrice, "Current Price", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.CurrentPrice, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.CurrentPrice, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.ApartmentType, "Apartment Type", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownList("ApartmentType", null, htmlAttributes: new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.ApartmentType, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.ApartmentSize, "Apartment Size", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.ApartmentSize, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.ApartmentSize, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.WaterAvailability, "Water Availability", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    <div class="checkbox">
+                        @Html.EditorFor(model => model.WaterAvailability)
+                        @Html.ValidationMessageFor(model => model.WaterAvailability, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.ElectricityAvailability, "Electricity Availability", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    <div class="checkbox">
+                        @Html.EditorFor(model => model.ElectricityAvailability)
+                        @Html.ValidationMessageFor(model => model.ElectricityAvailability, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+
+
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Floor, "Apartment Floor", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Floor, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Floor, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+        </div>
+
+        <div class="form-group">
+
+        </div>
+        <div class="form-group">
+            <h4>Apartment Location Picker</h4>
+            <div class="col-md-8">
+                <div id="myMap" style="position:relative; width:600px; height:400px;"></div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Latitude, "Latitude", htmlAttributes: new { @class = "control-label col-md-4" })
+                    <div class="col-md-8">
+                        @Html.EditorFor(model => model.Latitude, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                        @Html.ValidationMessageFor(model => model.Latitude, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Longitude, "Longitude", htmlAttributes: new { @class = "control-label col-md-4" })
+                    <div class="col-md-8">
+                        @Html.EditorFor(model => model.Longitude, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                        @Html.ValidationMessageFor(model => model.Longitude, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Create" class="btn btn-default" />
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/jqueryui")
+    @Styles.Render("~/Content/cssjqryUi")
+
+    <script type="text/javascript">
+         $(document).ready(function () {
+             $('input[type=datetime]').datepicker({
+                 dateFormat: "dd/M/yy",
+                 changeMonth: true,
+                 changeYear: true,
+                 yearRange: "-60:+0"
+             });
+
+
+
+         });
+    </script>
+}

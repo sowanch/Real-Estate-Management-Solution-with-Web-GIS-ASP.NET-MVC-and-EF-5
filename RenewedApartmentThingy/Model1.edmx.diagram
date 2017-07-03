@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="82251540f1a04627b4d9a1cb4b4d4a17" Name="Diagram1">
+        <EntityTypeShape EntityType="RentManagementModel.Agent" Width="1.5" PointX="3" PointY="8.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="RentManagementModel.ApartmentOwner" Width="1.5" PointX="0.75" PointY="3.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="RentManagementModel.ApartmentRentee" Width="1.5" PointX="3" PointY="12.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="RentManagementModel.Apartment" Width="1.5" PointX="3" PointY="2.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="RentManagementModel.ApartmentStatusTrail" Width="1.5" PointX="5.25" PointY="3.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="RentManagementModel.ApartmentType" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="RentManagementModel.ParkingType" Width="1.5" PointX="0.75" PointY="7.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="RentManagementModel.Photo" Width="1.5" PointX="5.25" PointY="7.5" IsExpanded="true" />
+        <AssociationConnector Association="RentManagementModel.FK_ApartmentStatusTrail_AgentInvolved" ManuallyRouted="false" />
+        <AssociationConnector Association="RentManagementModel.FK_Apartments_ApartmentOwnerID" ManuallyRouted="false" />
+        <AssociationConnector Association="RentManagementModel.FK_ApartmentStatusTrail_ApartmentRenteeID" ManuallyRouted="false" />
+        <AssociationConnector Association="RentManagementModel.FK_Apartments_ApartmentType" ManuallyRouted="false" />
+        <AssociationConnector Association="RentManagementModel.FK_Apartments_ParkingType" ManuallyRouted="false" />
+        <AssociationConnector Association="RentManagementModel.FK_ApartmentStatusTrail_ApartmentID" ManuallyRouted="false" />
+        <AssociationConnector Association="RentManagementModel.FK_Photos_ApartmentID" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

@@ -1,0 +1,75 @@
+﻿@model IEnumerable<RenewedApartmentThingy.Apartment>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            Apartment Name
+        </th>
+        <th>
+            Location Name
+        </th>
+        <th>
+            Bedrooms
+        </th>
+        <th>
+            Bathrooms
+        </th>
+        <th>
+            Current Price
+        </th>
+        <th>
+            Apartment Size
+        </th>
+        <th>
+            Building Complex Name
+        </th>
+        <th>
+            Apartment Status
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ApartmentName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LocationName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NumberOfBedrooms)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NumberOfBathrooms)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CurrentPrice)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ApartmentSize)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BuildingComplexName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ApartmentStatus)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.ApartmentID }) |
+                @Html.ActionLink("Details", "Details", new { id = item.ApartmentID }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.ApartmentID })
+            </td>
+        </tr>
+    }
+
+</table>

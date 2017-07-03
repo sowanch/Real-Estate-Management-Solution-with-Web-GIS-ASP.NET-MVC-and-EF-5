@@ -1,0 +1,58 @@
+﻿@model RenewedApartmentThingy.ApartmentStatusTrail
+
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Apartment Status Trail</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            Start Date
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.StartDate)
+        </dd>
+
+        <dt>
+            End Date
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EndDate)
+        </dd>
+
+        <dt>
+            Agent Name
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Agent.AgentName)
+        </dd>
+
+        <dt>
+            Apartment Rentee Name
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ApartmentRentee.ApartmentRenteeName)
+        </dd>
+
+        <dt>
+            Apartment Name
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Apartment.ApartmentName)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Back to List", "Index")
+</p>

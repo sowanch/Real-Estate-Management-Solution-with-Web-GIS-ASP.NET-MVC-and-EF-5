@@ -1,0 +1,575 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="RentManagementModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Agents">
+          <Key>
+            <PropertyRef Name="AgentID" />
+          </Key>
+          <Property Name="AgentID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="AgentName" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="AgentNumber" Type="varchar" MaxLength="20" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ApartmentOwners">
+          <Key>
+            <PropertyRef Name="ApartmentOwnerID" />
+          </Key>
+          <Property Name="ApartmentOwnerID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ApartmentOwnerName" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="ApartmentOwnerNumber" Type="varchar" MaxLength="15" Nullable="false" />
+          <Property Name="OwnerStartDate" Type="datetime" Nullable="false" />
+          <Property Name="OwnerEndDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="ApartmentRentees">
+          <Key>
+            <PropertyRef Name="ApartmentRenteeID" />
+          </Key>
+          <Property Name="ApartmentRenteeID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ApartmentRenteeName" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="ApartmentRenteeNumber" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="ApartmentRenterIDNumber" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="DateOfRegistration" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Apartments">
+          <Key>
+            <PropertyRef Name="ApartmentID" />
+          </Key>
+          <Property Name="ApartmentID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ApartmentOwnerID" Type="bigint" Nullable="false" />
+          <Property Name="ApartmentBuildDate" Type="datetime" Nullable="false" />
+          <Property Name="ApartmentStatus" Type="bit" Nullable="false" />
+          <Property Name="NumberOfBedrooms" Type="int" Nullable="false" />
+          <Property Name="NumberOfBathrooms" Type="int" Nullable="false" />
+          <Property Name="ApartmentName" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="ParkingType" Type="int" Nullable="false" />
+          <Property Name="LocationName" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="CurrentPrice" Type="money" Nullable="false" />
+          <Property Name="ApartmentType" Type="int" Nullable="false" />
+          <Property Name="ApartmentSize" Type="int" Nullable="false" />
+          <Property Name="WaterAvailability" Type="bit" Nullable="false" />
+          <Property Name="ElectricityAvailability" Type="bit" Nullable="false" />
+          <Property Name="Latitude" Type="float" />
+          <Property Name="Longitude" Type="float" />
+          <Property Name="Floor" Type="int" />
+          <Property Name="BuildingFloors" Type="int" Nullable="false" />
+          <Property Name="BuildingComplexName" Type="varchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="ApartmentStatusTrail">
+          <Key>
+            <PropertyRef Name="ApartmentStatusTrailID" />
+          </Key>
+          <Property Name="ApartmentStatusTrailID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ApartmentID" Type="bigint" Nullable="false" />
+          <Property Name="ApartmentRenteeID" Type="bigint" Nullable="false" />
+          <Property Name="AgentInvolved" Type="bigint" Nullable="false" />
+          <Property Name="StartDate" Type="datetime" Nullable="false" />
+          <Property Name="EndDate" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ApartmentType">
+          <Key>
+            <PropertyRef Name="ApartmentTypeID" />
+          </Key>
+          <Property Name="ApartmentTypeID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ApartmentTypeName" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="ApartmentTypeDescription" Type="varchar" MaxLength="250" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ParkingTypes">
+          <Key>
+            <PropertyRef Name="ParkingTypeID" />
+          </Key>
+          <Property Name="ParkingTypeID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ParkingTypeName" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="ParkingSpots" Type="int" Nullable="false" />
+          <Property Name="ParkingSecurity" Type="varchar" MaxLength="20" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Photos">
+          <Key>
+            <PropertyRef Name="PhotoID" />
+          </Key>
+          <Property Name="PhotoID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PhotoName" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="ApartmentID" Type="bigint" Nullable="false" />
+          <Property Name="PhotoSection" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Apartments_ApartmentOwnerID">
+          <End Role="ApartmentOwners" Type="Self.ApartmentOwners" Multiplicity="1" />
+          <End Role="Apartments" Type="Self.Apartments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ApartmentOwners">
+              <PropertyRef Name="ApartmentOwnerID" />
+            </Principal>
+            <Dependent Role="Apartments">
+              <PropertyRef Name="ApartmentOwnerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Apartments_ApartmentType">
+          <End Role="ApartmentType" Type="Self.ApartmentType" Multiplicity="1" />
+          <End Role="Apartments" Type="Self.Apartments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ApartmentType">
+              <PropertyRef Name="ApartmentTypeID" />
+            </Principal>
+            <Dependent Role="Apartments">
+              <PropertyRef Name="ApartmentType" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Apartments_ParkingType">
+          <End Role="ParkingTypes" Type="Self.ParkingTypes" Multiplicity="1" />
+          <End Role="Apartments" Type="Self.Apartments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ParkingTypes">
+              <PropertyRef Name="ParkingTypeID" />
+            </Principal>
+            <Dependent Role="Apartments">
+              <PropertyRef Name="ParkingType" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ApartmentStatusTrail_AgentInvolved">
+          <End Role="Agents" Type="Self.Agents" Multiplicity="1" />
+          <End Role="ApartmentStatusTrail" Type="Self.ApartmentStatusTrail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Agents">
+              <PropertyRef Name="AgentID" />
+            </Principal>
+            <Dependent Role="ApartmentStatusTrail">
+              <PropertyRef Name="AgentInvolved" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ApartmentStatusTrail_ApartmentID">
+          <End Role="Apartments" Type="Self.Apartments" Multiplicity="1" />
+          <End Role="ApartmentStatusTrail" Type="Self.ApartmentStatusTrail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Apartments">
+              <PropertyRef Name="ApartmentID" />
+            </Principal>
+            <Dependent Role="ApartmentStatusTrail">
+              <PropertyRef Name="ApartmentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ApartmentStatusTrail_ApartmentRenteeID">
+          <End Role="ApartmentRentees" Type="Self.ApartmentRentees" Multiplicity="1" />
+          <End Role="ApartmentStatusTrail" Type="Self.ApartmentStatusTrail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ApartmentRentees">
+              <PropertyRef Name="ApartmentRenteeID" />
+            </Principal>
+            <Dependent Role="ApartmentStatusTrail">
+              <PropertyRef Name="ApartmentRenteeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Photos_ApartmentID">
+          <End Role="Apartments" Type="Self.Apartments" Multiplicity="1" />
+          <End Role="Photos" Type="Self.Photos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Apartments">
+              <PropertyRef Name="ApartmentID" />
+            </Principal>
+            <Dependent Role="Photos">
+              <PropertyRef Name="ApartmentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="RentManagementModelStoreContainer">
+          <EntitySet Name="Agents" EntityType="Self.Agents" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ApartmentOwners" EntityType="Self.ApartmentOwners" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ApartmentRentees" EntityType="Self.ApartmentRentees" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Apartments" EntityType="Self.Apartments" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ApartmentStatusTrail" EntityType="Self.ApartmentStatusTrail" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ApartmentType" EntityType="Self.ApartmentType" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ParkingTypes" EntityType="Self.ParkingTypes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Photos" EntityType="Self.Photos" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Apartments_ApartmentOwnerID" Association="Self.FK_Apartments_ApartmentOwnerID">
+            <End Role="ApartmentOwners" EntitySet="ApartmentOwners" />
+            <End Role="Apartments" EntitySet="Apartments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Apartments_ApartmentType" Association="Self.FK_Apartments_ApartmentType">
+            <End Role="ApartmentType" EntitySet="ApartmentType" />
+            <End Role="Apartments" EntitySet="Apartments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Apartments_ParkingType" Association="Self.FK_Apartments_ParkingType">
+            <End Role="ParkingTypes" EntitySet="ParkingTypes" />
+            <End Role="Apartments" EntitySet="Apartments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ApartmentStatusTrail_AgentInvolved" Association="Self.FK_ApartmentStatusTrail_AgentInvolved">
+            <End Role="Agents" EntitySet="Agents" />
+            <End Role="ApartmentStatusTrail" EntitySet="ApartmentStatusTrail" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ApartmentStatusTrail_ApartmentID" Association="Self.FK_ApartmentStatusTrail_ApartmentID">
+            <End Role="Apartments" EntitySet="Apartments" />
+            <End Role="ApartmentStatusTrail" EntitySet="ApartmentStatusTrail" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ApartmentStatusTrail_ApartmentRenteeID" Association="Self.FK_ApartmentStatusTrail_ApartmentRenteeID">
+            <End Role="ApartmentRentees" EntitySet="ApartmentRentees" />
+            <End Role="ApartmentStatusTrail" EntitySet="ApartmentStatusTrail" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Photos_ApartmentID" Association="Self.FK_Photos_ApartmentID">
+            <End Role="Apartments" EntitySet="Apartments" />
+            <End Role="Photos" EntitySet="Photos" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="RentManagementModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Agent">
+          <Key>
+            <PropertyRef Name="AgentID" />
+          </Key>
+          <Property Name="AgentID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AgentName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="AgentNumber" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="ApartmentStatusTrails" Relationship="Self.FK_ApartmentStatusTrail_AgentInvolved" FromRole="Agents" ToRole="ApartmentStatusTrail" />
+        </EntityType>
+        <EntityType Name="ApartmentOwner">
+          <Key>
+            <PropertyRef Name="ApartmentOwnerID" />
+          </Key>
+          <Property Name="ApartmentOwnerID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ApartmentOwnerName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ApartmentOwnerNumber" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="OwnerStartDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="OwnerEndDate" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Apartments" Relationship="Self.FK_Apartments_ApartmentOwnerID" FromRole="ApartmentOwners" ToRole="Apartments" />
+        </EntityType>
+        <EntityType Name="ApartmentRentee">
+          <Key>
+            <PropertyRef Name="ApartmentRenteeID" />
+          </Key>
+          <Property Name="ApartmentRenteeID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ApartmentRenteeName" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ApartmentRenteeNumber" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ApartmentRenterIDNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="DateOfRegistration" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="ApartmentStatusTrails" Relationship="Self.FK_ApartmentStatusTrail_ApartmentRenteeID" FromRole="ApartmentRentees" ToRole="ApartmentStatusTrail" />
+        </EntityType>
+        <EntityType Name="Apartment">
+          <Key>
+            <PropertyRef Name="ApartmentID" />
+          </Key>
+          <Property Name="ApartmentID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ApartmentOwnerID" Type="Int64" Nullable="false" />
+          <Property Name="ApartmentBuildDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ApartmentStatus" Type="Boolean" Nullable="false" />
+          <Property Name="NumberOfBedrooms" Type="Int32" Nullable="false" />
+          <Property Name="NumberOfBathrooms" Type="Int32" Nullable="false" />
+          <Property Name="ApartmentName" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ParkingType" Type="Int32" Nullable="false" />
+          <Property Name="LocationName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="CurrentPrice" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <Property Name="ApartmentType" Type="Int32" Nullable="false" />
+          <Property Name="ApartmentSize" Type="Int32" Nullable="false" />
+          <Property Name="WaterAvailability" Type="Boolean" Nullable="false" />
+          <Property Name="ElectricityAvailability" Type="Boolean" Nullable="false" />
+          <Property Name="Latitude" Type="Double" />
+          <Property Name="Longitude" Type="Double" />
+          <Property Name="Floor" Type="Int32" />
+          <Property Name="BuildingFloors" Type="Int32" Nullable="false" />
+          <Property Name="BuildingComplexName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="ApartmentOwner" Relationship="Self.FK_Apartments_ApartmentOwnerID" FromRole="Apartments" ToRole="ApartmentOwners" />
+          <NavigationProperty Name="ApartmentType1" Relationship="Self.FK_Apartments_ApartmentType" FromRole="Apartments" ToRole="ApartmentType" />
+          <NavigationProperty Name="ParkingType1" Relationship="Self.FK_Apartments_ParkingType" FromRole="Apartments" ToRole="ParkingTypes" />
+          <NavigationProperty Name="ApartmentStatusTrails" Relationship="Self.FK_ApartmentStatusTrail_ApartmentID" FromRole="Apartments" ToRole="ApartmentStatusTrail" />
+          <NavigationProperty Name="Photos" Relationship="Self.FK_Photos_ApartmentID" FromRole="Apartments" ToRole="Photos" />
+        </EntityType>
+        <EntityType Name="ApartmentStatusTrail">
+          <Key>
+            <PropertyRef Name="ApartmentStatusTrailID" />
+          </Key>
+          <Property Name="ApartmentStatusTrailID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ApartmentID" Type="Int64" Nullable="false" />
+          <Property Name="ApartmentRenteeID" Type="Int64" Nullable="false" />
+          <Property Name="AgentInvolved" Type="Int64" Nullable="false" />
+          <Property Name="StartDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="EndDate" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Agent" Relationship="Self.FK_ApartmentStatusTrail_AgentInvolved" FromRole="ApartmentStatusTrail" ToRole="Agents" />
+          <NavigationProperty Name="ApartmentRentee" Relationship="Self.FK_ApartmentStatusTrail_ApartmentRenteeID" FromRole="ApartmentStatusTrail" ToRole="ApartmentRentees" />
+          <NavigationProperty Name="Apartment" Relationship="Self.FK_ApartmentStatusTrail_ApartmentID" FromRole="ApartmentStatusTrail" ToRole="Apartments" />
+        </EntityType>
+        <EntityType Name="ApartmentType">
+          <Key>
+            <PropertyRef Name="ApartmentTypeID" />
+          </Key>
+          <Property Name="ApartmentTypeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ApartmentTypeName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ApartmentTypeDescription" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Apartments" Relationship="Self.FK_Apartments_ApartmentType" FromRole="ApartmentType" ToRole="Apartments" />
+        </EntityType>
+        <EntityType Name="ParkingType">
+          <Key>
+            <PropertyRef Name="ParkingTypeID" />
+          </Key>
+          <Property Name="ParkingTypeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ParkingTypeName" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ParkingSpots" Type="Int32" Nullable="false" />
+          <Property Name="ParkingSecurity" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Apartments" Relationship="Self.FK_Apartments_ParkingType" FromRole="ParkingTypes" ToRole="Apartments" />
+        </EntityType>
+        <EntityType Name="Photo">
+          <Key>
+            <PropertyRef Name="PhotoID" />
+          </Key>
+          <Property Name="PhotoID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PhotoName" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ApartmentID" Type="Int64" Nullable="false" />
+          <Property Name="PhotoSection" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Apartment" Relationship="Self.FK_Photos_ApartmentID" FromRole="Photos" ToRole="Apartments" />
+        </EntityType>
+        <Association Name="FK_ApartmentStatusTrail_AgentInvolved">
+          <End Role="Agents" Type="Self.Agent" Multiplicity="1" />
+          <End Role="ApartmentStatusTrail" Type="Self.ApartmentStatusTrail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Agents">
+              <PropertyRef Name="AgentID" />
+            </Principal>
+            <Dependent Role="ApartmentStatusTrail">
+              <PropertyRef Name="AgentInvolved" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Apartments_ApartmentOwnerID">
+          <End Role="ApartmentOwners" Type="Self.ApartmentOwner" Multiplicity="1" />
+          <End Role="Apartments" Type="Self.Apartment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ApartmentOwners">
+              <PropertyRef Name="ApartmentOwnerID" />
+            </Principal>
+            <Dependent Role="Apartments">
+              <PropertyRef Name="ApartmentOwnerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ApartmentStatusTrail_ApartmentRenteeID">
+          <End Role="ApartmentRentees" Type="Self.ApartmentRentee" Multiplicity="1" />
+          <End Role="ApartmentStatusTrail" Type="Self.ApartmentStatusTrail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ApartmentRentees">
+              <PropertyRef Name="ApartmentRenteeID" />
+            </Principal>
+            <Dependent Role="ApartmentStatusTrail">
+              <PropertyRef Name="ApartmentRenteeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Apartments_ApartmentType">
+          <End Role="ApartmentType" Type="Self.ApartmentType" Multiplicity="1" />
+          <End Role="Apartments" Type="Self.Apartment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ApartmentType">
+              <PropertyRef Name="ApartmentTypeID" />
+            </Principal>
+            <Dependent Role="Apartments">
+              <PropertyRef Name="ApartmentType" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Apartments_ParkingType">
+          <End Role="ParkingTypes" Type="Self.ParkingType" Multiplicity="1" />
+          <End Role="Apartments" Type="Self.Apartment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ParkingTypes">
+              <PropertyRef Name="ParkingTypeID" />
+            </Principal>
+            <Dependent Role="Apartments">
+              <PropertyRef Name="ParkingType" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ApartmentStatusTrail_ApartmentID">
+          <End Role="Apartments" Type="Self.Apartment" Multiplicity="1" />
+          <End Role="ApartmentStatusTrail" Type="Self.ApartmentStatusTrail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Apartments">
+              <PropertyRef Name="ApartmentID" />
+            </Principal>
+            <Dependent Role="ApartmentStatusTrail">
+              <PropertyRef Name="ApartmentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Photos_ApartmentID">
+          <End Role="Apartments" Type="Self.Apartment" Multiplicity="1" />
+          <End Role="Photos" Type="Self.Photo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Apartments">
+              <PropertyRef Name="ApartmentID" />
+            </Principal>
+            <Dependent Role="Photos">
+              <PropertyRef Name="ApartmentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="RentManagementEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Agents" EntityType="Self.Agent" />
+          <EntitySet Name="ApartmentOwners" EntityType="Self.ApartmentOwner" />
+          <EntitySet Name="ApartmentRentees" EntityType="Self.ApartmentRentee" />
+          <EntitySet Name="Apartments" EntityType="Self.Apartment" />
+          <EntitySet Name="ApartmentStatusTrails" EntityType="Self.ApartmentStatusTrail" />
+          <EntitySet Name="ApartmentTypes" EntityType="Self.ApartmentType" />
+          <EntitySet Name="ParkingTypes" EntityType="Self.ParkingType" />
+          <EntitySet Name="Photos" EntityType="Self.Photo" />
+          <AssociationSet Name="FK_ApartmentStatusTrail_AgentInvolved" Association="Self.FK_ApartmentStatusTrail_AgentInvolved">
+            <End Role="Agents" EntitySet="Agents" />
+            <End Role="ApartmentStatusTrail" EntitySet="ApartmentStatusTrails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Apartments_ApartmentOwnerID" Association="Self.FK_Apartments_ApartmentOwnerID">
+            <End Role="ApartmentOwners" EntitySet="ApartmentOwners" />
+            <End Role="Apartments" EntitySet="Apartments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ApartmentStatusTrail_ApartmentRenteeID" Association="Self.FK_ApartmentStatusTrail_ApartmentRenteeID">
+            <End Role="ApartmentRentees" EntitySet="ApartmentRentees" />
+            <End Role="ApartmentStatusTrail" EntitySet="ApartmentStatusTrails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Apartments_ApartmentType" Association="Self.FK_Apartments_ApartmentType">
+            <End Role="ApartmentType" EntitySet="ApartmentTypes" />
+            <End Role="Apartments" EntitySet="Apartments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Apartments_ParkingType" Association="Self.FK_Apartments_ParkingType">
+            <End Role="ParkingTypes" EntitySet="ParkingTypes" />
+            <End Role="Apartments" EntitySet="Apartments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ApartmentStatusTrail_ApartmentID" Association="Self.FK_ApartmentStatusTrail_ApartmentID">
+            <End Role="Apartments" EntitySet="Apartments" />
+            <End Role="ApartmentStatusTrail" EntitySet="ApartmentStatusTrails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Photos_ApartmentID" Association="Self.FK_Photos_ApartmentID">
+            <End Role="Apartments" EntitySet="Apartments" />
+            <End Role="Photos" EntitySet="Photos" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="RentManagementModelStoreContainer" CdmEntityContainer="RentManagementEntities">
+          <EntitySetMapping Name="Agents">
+            <EntityTypeMapping TypeName="RentManagementModel.Agent">
+              <MappingFragment StoreEntitySet="Agents">
+                <ScalarProperty Name="AgentID" ColumnName="AgentID" />
+                <ScalarProperty Name="AgentName" ColumnName="AgentName" />
+                <ScalarProperty Name="AgentNumber" ColumnName="AgentNumber" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ApartmentOwners">
+            <EntityTypeMapping TypeName="RentManagementModel.ApartmentOwner">
+              <MappingFragment StoreEntitySet="ApartmentOwners">
+                <ScalarProperty Name="ApartmentOwnerID" ColumnName="ApartmentOwnerID" />
+                <ScalarProperty Name="ApartmentOwnerName" ColumnName="ApartmentOwnerName" />
+                <ScalarProperty Name="ApartmentOwnerNumber" ColumnName="ApartmentOwnerNumber" />
+                <ScalarProperty Name="OwnerStartDate" ColumnName="OwnerStartDate" />
+                <ScalarProperty Name="OwnerEndDate" ColumnName="OwnerEndDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ApartmentRentees">
+            <EntityTypeMapping TypeName="RentManagementModel.ApartmentRentee">
+              <MappingFragment StoreEntitySet="ApartmentRentees">
+                <ScalarProperty Name="ApartmentRenteeID" ColumnName="ApartmentRenteeID" />
+                <ScalarProperty Name="ApartmentRenteeName" ColumnName="ApartmentRenteeName" />
+                <ScalarProperty Name="ApartmentRenteeNumber" ColumnName="ApartmentRenteeNumber" />
+                <ScalarProperty Name="ApartmentRenterIDNumber" ColumnName="ApartmentRenterIDNumber" />
+                <ScalarProperty Name="DateOfRegistration" ColumnName="DateOfRegistration" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Apartments">
+            <EntityTypeMapping TypeName="RentManagementModel.Apartment">
+              <MappingFragment StoreEntitySet="Apartments">
+                <ScalarProperty Name="ApartmentID" ColumnName="ApartmentID" />
+                <ScalarProperty Name="ApartmentOwnerID" ColumnName="ApartmentOwnerID" />
+                <ScalarProperty Name="ApartmentBuildDate" ColumnName="ApartmentBuildDate" />
+                <ScalarProperty Name="ApartmentStatus" ColumnName="ApartmentStatus" />
+                <ScalarProperty Name="NumberOfBedrooms" ColumnName="NumberOfBedrooms" />
+                <ScalarProperty Name="NumberOfBathrooms" ColumnName="NumberOfBathrooms" />
+                <ScalarProperty Name="ApartmentName" ColumnName="ApartmentName" />
+                <ScalarProperty Name="ParkingType" ColumnName="ParkingType" />
+                <ScalarProperty Name="LocationName" ColumnName="LocationName" />
+                <ScalarProperty Name="CurrentPrice" ColumnName="CurrentPrice" />
+                <ScalarProperty Name="ApartmentType" ColumnName="ApartmentType" />
+                <ScalarProperty Name="ApartmentSize" ColumnName="ApartmentSize" />
+                <ScalarProperty Name="WaterAvailability" ColumnName="WaterAvailability" />
+                <ScalarProperty Name="ElectricityAvailability" ColumnName="ElectricityAvailability" />
+                <ScalarProperty Name="Latitude" ColumnName="Latitude" />
+                <ScalarProperty Name="Longitude" ColumnName="Longitude" />
+                <ScalarProperty Name="Floor" ColumnName="Floor" />
+                <ScalarProperty Name="BuildingFloors" ColumnName="BuildingFloors" />
+                <ScalarProperty Name="BuildingComplexName" ColumnName="BuildingComplexName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ApartmentStatusTrails">
+            <EntityTypeMapping TypeName="RentManagementModel.ApartmentStatusTrail">
+              <MappingFragment StoreEntitySet="ApartmentStatusTrail">
+                <ScalarProperty Name="ApartmentStatusTrailID" ColumnName="ApartmentStatusTrailID" />
+                <ScalarProperty Name="ApartmentID" ColumnName="ApartmentID" />
+                <ScalarProperty Name="ApartmentRenteeID" ColumnName="ApartmentRenteeID" />
+                <ScalarProperty Name="AgentInvolved" ColumnName="AgentInvolved" />
+                <ScalarProperty Name="StartDate" ColumnName="StartDate" />
+                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ApartmentTypes">
+            <EntityTypeMapping TypeName="RentManagementModel.ApartmentType">
+              <MappingFragment StoreEntitySet="ApartmentType">
+                <ScalarProperty Name="ApartmentTypeID" ColumnName="ApartmentTypeID" />
+                <ScalarProperty Name="ApartmentTypeName" ColumnName="ApartmentTypeName" />
+                <ScalarProperty Name="ApartmentTypeDescription" ColumnName="ApartmentTypeDescription" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ParkingTypes">
+            <EntityTypeMapping TypeName="RentManagementModel.ParkingType">
+              <MappingFragment StoreEntitySet="ParkingTypes">
+                <ScalarProperty Name="ParkingTypeID" ColumnName="ParkingTypeID" />
+                <ScalarProperty Name="ParkingTypeName" ColumnName="ParkingTypeName" />
+                <ScalarProperty Name="ParkingSpots" ColumnName="ParkingSpots" />
+                <ScalarProperty Name="ParkingSecurity" ColumnName="ParkingSecurity" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Photos">
+            <EntityTypeMapping TypeName="RentManagementModel.Photo">
+              <MappingFragment StoreEntitySet="Photos">
+                <ScalarProperty Name="PhotoID" ColumnName="PhotoID" />
+                <ScalarProperty Name="PhotoName" ColumnName="PhotoName" />
+                <ScalarProperty Name="ApartmentID" ColumnName="ApartmentID" />
+                <ScalarProperty Name="PhotoSection" ColumnName="PhotoSection" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

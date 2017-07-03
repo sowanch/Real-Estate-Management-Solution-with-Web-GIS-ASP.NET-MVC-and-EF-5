@@ -1,0 +1,56 @@
+﻿@model IEnumerable<RenewedApartmentThingy.ApartmentStatusTrail>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            Start Date
+        </th>
+        <th>
+            End Date
+        </th>
+        <th>
+            Agent Name
+        </th>
+        <th>
+            Rentee Name
+        </th>
+        <th>
+            Apartment Name
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.StartDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EndDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Agent.AgentName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ApartmentRentee.ApartmentRenteeName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Apartment.ApartmentName)
+            </td>
+            <td>
+                @Html.ActionLink("Details", "Details", new { id = item.ApartmentStatusTrailID })
+            </td>
+        </tr>
+    }
+
+</table>

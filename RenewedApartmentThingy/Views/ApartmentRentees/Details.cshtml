@@ -1,0 +1,50 @@
+﻿@model RenewedApartmentThingy.ApartmentRentee
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>ApartmentRentee</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            Apartment Rentee Name
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ApartmentRenteeName)
+        </dd>
+
+        <dt>
+            Apartment Rentee Number
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ApartmentRenteeNumber)
+        </dd>
+
+        <dt>
+            Apartment Renter ID Number
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ApartmentRenterIDNumber)
+        </dd>
+
+        <dt>
+            Date Of Registration
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DateOfRegistration)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ApartmentRenteeID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

@@ -1,0 +1,34 @@
+﻿@model RenewedApartmentThingy.ApartmentType
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>ApartmentType</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            Apartment Type Name
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ApartmentTypeName)
+        </dd>
+
+        <dt>
+            Apartment Type Description
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ApartmentTypeDescription)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ApartmentTypeID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

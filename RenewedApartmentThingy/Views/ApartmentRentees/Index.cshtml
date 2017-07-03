@@ -1,0 +1,52 @@
+﻿@model IEnumerable<RenewedApartmentThingy.ApartmentRentee>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            Apartment Rentee Name
+        </th>
+        <th>
+            Apartment Rentee Number
+        </th>
+        <th>
+            Apartment Renter ID Number
+        </th>
+        <th>
+            Date Of Registration
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ApartmentRenteeName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ApartmentRenteeNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ApartmentRenterIDNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DateOfRegistration)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.ApartmentRenteeID }) |
+                @Html.ActionLink("Details", "Details", new { id = item.ApartmentRenteeID }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.ApartmentRenteeID })
+            </td>
+        </tr>
+    }
+
+</table>

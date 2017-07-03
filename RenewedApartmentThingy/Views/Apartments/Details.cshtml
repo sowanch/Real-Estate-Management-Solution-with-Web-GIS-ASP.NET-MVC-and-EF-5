@@ -1,0 +1,162 @@
+﻿@model RenewedApartmentThingy.Apartment
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Apartment</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            Apartment Build Date
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ApartmentBuildDate)
+        </dd>
+
+        <dt>
+            Apartment Status
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ApartmentStatus)
+        </dd>
+
+        <dt>
+            Bedrooms
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NumberOfBedrooms)
+        </dd>
+
+        <dt>
+            Bathrooms
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NumberOfBathrooms)
+        </dd>
+
+        <dt>
+            Apartment Name
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ApartmentName)
+        </dd>
+
+        <dt>
+            Location Name
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LocationName)
+        </dd>
+
+        <dt>
+            Current Price
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CurrentPrice)
+        </dd>
+
+        <dt>
+            Size
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ApartmentSize)
+        </dd>
+
+        <dt>
+            Availability
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.WaterAvailability)
+        </dd>
+
+        <dt>
+            Electricity
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ElectricityAvailability)
+        </dd>
+
+        <dt>
+            Latitude
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Latitude)
+        </dd>
+
+        <dt>
+            Longitude
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Longitude)
+        </dd>
+
+        <dt>
+            Floor
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Floor)
+        </dd>
+
+        <dt>
+            Floors in the Building
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BuildingFloors)
+        </dd>
+
+        <dt>
+            Building Complex Name
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BuildingComplexName)
+        </dd>
+
+        <dt>
+            Apartment Owner Name
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ApartmentOwner.ApartmentOwnerName)
+        </dd>
+
+        <dt>
+            Apartment Type
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ApartmentType1.ApartmentTypeName)
+        </dd>
+
+        <dt>
+            Parking Type
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ParkingType1.ParkingTypeName)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ApartmentID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

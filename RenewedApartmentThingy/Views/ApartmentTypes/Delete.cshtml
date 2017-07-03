@@ -1,0 +1,42 @@
+﻿@model RenewedApartmentThingy.ApartmentType
+
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>ApartmentType</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            Apartment Type Name
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ApartmentTypeName)
+        </dd>
+
+        <dt>
+            Apartment Type Description
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ApartmentTypeDescription)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

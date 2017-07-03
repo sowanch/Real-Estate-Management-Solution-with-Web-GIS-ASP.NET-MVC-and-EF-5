@@ -1,0 +1,42 @@
+﻿@model RenewedApartmentThingy.Photo
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Photo</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.PhotoName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PhotoName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PhotoSection)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PhotoSection)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Apartment.ApartmentName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Apartment.ApartmentName)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.PhotoID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

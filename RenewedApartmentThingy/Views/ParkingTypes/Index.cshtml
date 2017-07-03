@@ -1,0 +1,46 @@
+﻿@model IEnumerable<RenewedApartmentThingy.ParkingType>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            Parking Type Name
+        </th>
+        <th>
+            Parking Spots
+        </th>
+        <th>
+            Parking Security
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ParkingTypeName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ParkingSpots)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ParkingSecurity)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.ParkingTypeID }) |
+                @Html.ActionLink("Details", "Details", new { id = item.ParkingTypeID }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.ParkingTypeID })
+            </td>
+        </tr>
+    }
+
+</table>

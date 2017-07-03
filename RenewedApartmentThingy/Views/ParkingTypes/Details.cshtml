@@ -1,0 +1,42 @@
+﻿@model RenewedApartmentThingy.ParkingType
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>ParkingType</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            Parking Type Name
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ParkingTypeName)
+        </dd>
+
+        <dt>
+            Parking Spots
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ParkingSpots)
+        </dd>
+
+        <dt>
+            Parking Security
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ParkingSecurity)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ParkingTypeID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
